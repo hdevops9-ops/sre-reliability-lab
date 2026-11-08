@@ -1,0 +1,27 @@
+groups:
+  - name: platform-api
+    rules:
+      - record: lab:error_ratio5m
+        expr: sum(rate(lab_requests_total{status="500"}[5m])) / sum(rate(lab_requests_total[5m]))
+      - alert: LabAvailabilityBurn
+        expr: lab:error_ratio5m > (14.4 * 0.001) and sum(rate(lab_requests_total[5m])) > 0.1
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: Lab API exceeds 14.4 times a 99.9% availability error budget
+          description: Single-window teaching alert. Follow docs/runbook.md; not a production paging policy.
+      - alert: LabLatencyHigh
+        expr: histogram_quantile(0.99, sum by (le) (rate(lab_duration_seconds_bucket[5m]))) > 1
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: Lab API p99 latency exceeds one second
+      - alert: LabTargetDown
+        expr: up{job="platform-api"} == 0
+        for: 30s
+        labels:
+          severity: warning
+        annotations:
+          summary: Prometheus cannot scrape the lab API

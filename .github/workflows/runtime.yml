@@ -1,0 +1,32 @@
+name: Full monitoring stack integration
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  runtime:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Start real application and monitoring containers
+        run: docker compose up --build -d
+      - name: Exercise traffic, alerts, latency, and recovery
+        run: python tests/runtime.py
+      - name: Collect container logs
+        if: always()
+        run: |
+          mkdir -p evidence
+          docker compose ps --all > evidence/containers.txt
+          docker compose logs --no-color > evidence/compose.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: monitoring-runtime-evidence
+          path: evidence/
+          retention-days: 14
+      - name: Clean up
+        if: always()
+        run: docker compose down --volumes --remove-orphans

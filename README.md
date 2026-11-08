@@ -1,5 +1,7 @@
 # SRE Reliability Lab
 
+[![Reliability lab checks](https://github.com/hdevops9-ops/sre-reliability-lab/actions/workflows/check.yml/badge.svg)](https://github.com/hdevops9-ops/sre-reliability-lab/actions/workflows/check.yml)
+
 A locally runnable instrumented HTTP API with Prometheus, a provisioned Grafana
 dashboard, fault injection, and a practical incident runbook. No AWS bill.
 Personal portfolio lab; no employer data or claims of production adoption.

@@ -1,0 +1,77 @@
+[
+  {
+    "check": "Prometheus ready",
+    "elapsed_seconds": 0.01,
+    "passed": true
+  },
+  {
+    "check": "Grafana healthy",
+    "elapsed_seconds": 2.01,
+    "passed": true
+  },
+  {
+    "check": "provisioned Grafana dashboard",
+    "elapsed_seconds": 0.02,
+    "passed": true
+  },
+  {
+    "check": "Prometheus scrapes real API",
+    "elapsed_seconds": 8.01,
+    "passed": true
+  },
+  {
+    "check": "healthy request rate",
+    "elapsed_seconds": 4,
+    "passed": true
+  },
+  {
+    "check": "app process healthy",
+    "elapsed_seconds": 2,
+    "passed": true
+  },
+  {
+    "check": "all user requests fail",
+    "elapsed_seconds": 0,
+    "passed": true
+  },
+  {
+    "check": "availability alert fires",
+    "elapsed_seconds": 66.04,
+    "passed": true
+  },
+  {
+    "check": "app process healthy",
+    "elapsed_seconds": 2,
+    "passed": true
+  },
+  {
+    "check": "measured slow request",
+    "elapsed_seconds": 1.5,
+    "passed": true
+  },
+  {
+    "check": "latency alert fires",
+    "elapsed_seconds": 106.07,
+    "passed": true
+  },
+  {
+    "check": "app process healthy",
+    "elapsed_seconds": 2,
+    "passed": true
+  },
+  {
+    "check": "user requests recover",
+    "elapsed_seconds": 0,
+    "passed": true
+  },
+  {
+    "check": "short window error ratio recovers",
+    "elapsed_seconds": 0,
+    "passed": true
+  },
+  {
+    "check": "five minute alerts resolve",
+    "elapsed_seconds": 236.13,
+    "passed": true
+  }
+]

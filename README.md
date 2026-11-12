@@ -1,4 +1,4 @@
-# SRE Reliability Lab
+# Platform Reliability — Monitoring and Recovery
 
 [![Reliability lab checks](https://github.com/hdevops9-ops/sre-reliability-lab/actions/workflows/check.yml/badge.svg)](https://github.com/hdevops9-ops/sre-reliability-lab/actions/workflows/check.yml)
 
@@ -50,8 +50,8 @@ python3 -m unittest discover -s app -v
 ```
 
 Tests cover HTTP success/failure, independent health, unknown routes, cumulative
-histogram buckets, and invalid fault settings. Docker/Prometheus/Grafana execution
-still needs a Docker host; unit tests alone do not prove the whole stack works.
+histogram buckets, and invalid fault settings. The full Docker/Prometheus/Grafana stack also passed the integration workflow,
+including alert firing and resolution; see the runtime evidence below.
 Images are version-tagged rather than digest-pinned. The dashboard contains live
 local data only after you start the stack; no screenshots or results are fabricated.
 See [runbook](docs/runbook.md) and [decisions](docs/decisions.md).
@@ -67,3 +67,9 @@ docker compose down --volumes --remove-orphans
 - https://prometheus.io/docs/prometheus/latest/configuration/alerting_rules/
 - https://prometheus.io/docs/practices/histograms/
 - https://sre.google/workbook/alerting-on-slos/
+
+## Verified runtime evidence
+
+The [full-stack run](https://github.com/hdevops9-ops/sre-reliability-lab/actions/runs/42449587866) started the real Compose services, verified Grafana provisioning and Prometheus scrapes, injected HTTP failures and latency, observed both alerts fire, and verified request recovery and alert resolution. [Recorded results](docs/runtime-validation.md) include the tested commit and downloadable evidence. These are disposable integration results, not production incident statistics.
+
+Reproduce with `docker compose up --build -d` followed by `python3 tests/runtime.py`. The script deliberately recreates the local application container; use only this disposable stack.

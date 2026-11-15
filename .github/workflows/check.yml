@@ -11,6 +11,8 @@ jobs:
         with:
           python-version: '3.12'
       - run: python -m unittest discover -s app -v
+      - name: Test SLO burn-rate decisions
+        run: python -m unittest discover -s slo-burn-rate -v
       - run: docker compose config --quiet
       - name: Validate Prometheus config and rules
         run: |

@@ -43,6 +43,8 @@ The latency histogram has coarse buckets, so p99 is an estimate. Health checks a
 metrics scrapes are excluded from the user-request denominator. Idle traffic yields
 no meaningful error ratio; a separate `up` alert detects scrape failure.
 
+Try the [SLO burn-rate exercise](slo-burn-rate/README.md) for a separate Python walkthrough of 5-minute and 1-hour paging windows, missing telemetry, and zero traffic.
+
 ## Tests and limits
 
 ```bash

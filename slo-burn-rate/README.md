@@ -23,3 +23,13 @@ A missing minute blocks the health decision. A complete window with zero request
 For a page, verify user impact and correlate the rise in failures with deployments or downstream health. For a telemetry gap, check the scrape target, collector and ingestion path, then cross-check with a synthetic probe. The fixtures are synthetic. The evaluator demonstrates one paging rule and does not measure monthly SLA compliance or connect to a live metrics backend.
 
 Run `python -m unittest -v` to verify the fixtures and the distinction between missing metrics and zero traffic.
+
+## Replay telemetry from CSV
+
+Export one row per minute with the header `minute,requests,errors`. Use consecutive integer minute IDs or Unix epoch minutes. Include a row with zero counts for a measured idle minute and omit a row for a missing observation.
+
+```sh
+python evaluate.py --csv checkout.csv --end-minute 60
+```
+
+The end is exclusive. This example evaluates minutes 0–59 for the hour and 55–59 for the short window. Supply the expected end even when the newest observations are missing, so a stale export cannot shift the evaluation window backwards. Duplicate minutes and invalid counts fail with an input error.

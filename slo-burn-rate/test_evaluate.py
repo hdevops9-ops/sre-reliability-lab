@@ -1,7 +1,8 @@
 import unittest
 from decimal import Decimal
+from io import StringIO
 
-from evaluate import Minute, evaluate, scenario
+from evaluate import Minute, evaluate, read_samples, scenario
 
 
 class EvaluateTests(unittest.TestCase):
@@ -33,3 +34,18 @@ class EvaluateTests(unittest.TestCase):
     def test_rejects_impossible_counts(self):
         with self.assertRaises(ValueError):
             Minute(2, 3)
+
+
+class CsvReplayTests(unittest.TestCase):
+    def test_replay_keeps_expected_end_when_latest_minute_is_missing(self):
+        text = "minute,requests,errors\n" + "".join(
+            f"{minute},1000,0\n" for minute in range(59)
+        )
+        decision, short, _ = evaluate(read_samples(StringIO(text)), 60)
+        self.assertEqual(decision, "INVESTIGATE_TELEMETRY")
+        self.assertEqual(short.missing, 1)
+
+    def test_duplicate_minutes_are_rejected(self):
+        data = StringIO("minute,requests,errors\n0,10,0\n0,10,0\n")
+        with self.assertRaisesRegex(ValueError, "Duplicate minute 0"):
+            read_samples(data)
